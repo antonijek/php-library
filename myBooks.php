@@ -84,6 +84,7 @@ function getDataFromPivotTable($id){
             <th > <p class="mr-1 ml-1">Title</p>   </th>
             <th>Description</th>
             <th>Author</th>
+            <th>Return the book</th>
           
         </tr>
         </thead>
@@ -97,7 +98,13 @@ function getDataFromPivotTable($id){
                     <td> <p><?php echo getDataFromPivotTable($book["book_id"])[0]['title'] ?></p>  </td>
                     <td> <p><?php echo getDataFromPivotTable($book["book_id"])[0]['description'] ?></p>  </td>
                     <td> <p><?php echo getDataFromPivotTable($book["book_id"])[0]['author'] ?></p>  </td>
-                   
+                    <td> <form method= "POST" action = "returnTheBook.php"> 
+                        <input type="hidden" name="user_id" value="<?php echo $x ?>" > 
+                        <input type="hidden" name="name" value="<?php echo $name ?>" > 
+                        <input type="hidden" name="book_id" value="<?php echo $book["book_id"] ?>" >
+                        <button type="submit"> Return </button>
+                        
+                       </form>  </td>
                   
             </tr>
         <?php endforeach; ?>
