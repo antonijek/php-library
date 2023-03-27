@@ -145,7 +145,7 @@ if(isset($_POST['search']))  {
                     <td><?php echo $book["title"] ?></td>
                     <td><?php echo $book["description"] ?></td>
                    <td><?php echo $book["author"] ?></td>
-                    <td><form action="takeABook.php" method="POST"><?php echo $book["available"]==1? "<button type='submit'>borrow</button>" :"unavailable" ?> <input type="hidden" name="name"value="<?php echo $name?>"> <input type="hidden" name="id"value="<?php echo $book['id']?>"></form> </td>
+                    <td><form action="takeABook.php" method="POST"><?php echo $book["available"]==1? "<button class='btn btn-success' type='submit'>borrow</button>" :"unavailable" ?> <input type="hidden" name="name"value="<?php echo $name?>"> <input type="hidden" name="id"value="<?php echo $book['id']?>"></form> </td>
                     <td><form action="editBook.php" method="POST"><input type="hidden" name="id" value="<?php echo $book['id']?>"/><input type="hidden" name="name" value="<?php echo $name?>"/><button type="submit" class="btn btn-primary" ><i class="bi bi-pencil"></i></button></form></td>
                     <td><form action="deleteBook.php" method="POST"><input type="hidden" name="id" value="<?php echo $book['id']?>"/><input type="hidden" name="name" value="<?php echo $name?>"/>  <button type="submit" class="btn btn-danger" ><i class="bi bi-trash"></i></button></form></td>
                     
@@ -153,7 +153,9 @@ if(isset($_POST['search']))  {
             </tr>
         <?php endforeach; ?>
     </table>
-
+<div> <?php echo isset($_POST['search'])? "<div class='d-flex justify-content-center'>
+     <a href='javascript:history.back()' class='btn btn-primary col-sm-2 m-4'>Back</a>
+    </div>" :"" ?></div>
 
 </div>
 <script>
