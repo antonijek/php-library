@@ -1,16 +1,14 @@
 <?php
-include "./getFromDatabase.php";
 
-
-function getMyBooks(){
+function getData($id){
     $con = mysqli_connect("localhost","root","","library");
-  
+
     if (mysqli_connect_errno()) {
         echo "Failed to connect to MySQL: " . mysqli_connect_error();
         exit();
     } else
     {
-        $result = mysqli_query($con, "SELECT * FROM books WHERE available = 'borrow'");
+        $result = mysqli_query($con, "SELECT * FROM book_user WHERE user_id= $id ");
         if ($result) {
             $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
             return $data;
@@ -19,7 +17,32 @@ function getMyBooks(){
 
 }
 
-$myBooks = getMyBooks();
+$name = $_GET['name'];
+function getId($name){
+   
+    $con = mysqli_connect("localhost","root","","library");
+    $stmt = mysqli_prepare($con, "SELECT id FROM users WHERE first_name = ?");
+    mysqli_stmt_bind_param($stmt, "s", $name);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+       if ($result) {
+           $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+           return $data;
+       }
+   }
+$x = getId($name)[0]['id'];
+$myBooks = getData($x);
+
+
+function getDataFromPivotTable($id){
+   $con = mysqli_connect("localhost","root","","library");
+    $result = mysqli_query($con, "SELECT * FROM books WHERE id = $id");
+        if ($result) {
+            $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            return $data;
+        }
+    }
+  
 
 ?>
 
@@ -55,7 +78,7 @@ $myBooks = getMyBooks();
 
    
     <table class="table table-striped " >
-        <thead>
+    <thead>
         <tr class="align-text-top">
             <th>#</th>
             <th > <p class="mr-1 ml-1">Title</p>   </th>
@@ -69,10 +92,11 @@ $myBooks = getMyBooks();
 
         foreach ($myBooks as $index=> $book) : ?>
             <tr>
-                    <td><?php echo $index+1 ?></td>
-                    <td><?php echo $book["title"] ?></td>
-                    <td><?php echo $book["description"] ?></td>
-                   <td><?php echo $book["author"] ?></td>
+                <td><?php echo $index+1 ?></td>
+                  
+                    <td> <p><?php echo getDataFromPivotTable($book["book_id"])[0]['title'] ?></p>  </td>
+                    <td> <p><?php echo getDataFromPivotTable($book["book_id"])[0]['description'] ?></p>  </td>
+                    <td> <p><?php echo getDataFromPivotTable($book["book_id"])[0]['author'] ?></p>  </td>
                    
                   
             </tr>
